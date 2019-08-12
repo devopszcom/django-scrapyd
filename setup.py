@@ -9,11 +9,11 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-scrapyd',
-    version='0.1',
+    version='0.2',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License', 
-    description='Django scrapyd is a Django app to manage scrapyd (Scrapy Deploy)',
+    description='Django scrapyd is a Django app to manage scrapyd',
     long_description=README,
     url='https://github.com/devopszcom/django-scrapyd',
     author='Cuong Nguyen',
@@ -31,4 +31,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
+    install_requires=[
+        'requests>=2.18.4',
+    ]
 )

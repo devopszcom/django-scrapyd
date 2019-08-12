@@ -1,6 +1,6 @@
-=====
+================
 Django scrapyd
-=====
+================
 
 Django scrapyd is a Django app to manage scrapyd (Scrapy Deploy)
 
@@ -11,7 +11,7 @@ Quick start
 
     INSTALLED_APPS = [
         ...
-        'django-scrapyd',
+        'scrapyd',
     ]
 
 2. Run `python manage.py migrate` to create the django-scrapyd models.

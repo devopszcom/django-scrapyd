@@ -109,7 +109,6 @@ class CrawlerNodeAdmin(admin.ModelAdmin):
 
     def log_stats_view(self, request, cid, spider, job_id):
         try:
-            # url = "http://25.46.243.254:6800/logs/default/image_raw_product/f6fdad5005c711e991c50242ac110002.log"
             crawler = models.CrawlerNode.objects.get(pk=cid)
             url = "http://{}:{}/logs/default/{}/{}.log".format(crawler.host, crawler.port, spider, job_id)
             response = requests.get(url)
