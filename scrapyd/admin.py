@@ -15,7 +15,7 @@ import logging
 
 from .scrapyd import ScraydAPI
 
-logger = logging.getLogger("apps")
+logger = logging.getLogger("django")
 
 
 @admin.register(models.CrawlerNode)
