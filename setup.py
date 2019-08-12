@@ -15,7 +15,7 @@ setup(
     license='MIT License', 
     description='Django scrapyd is a Django app to manage scrapyd (Scrapy Deploy)',
     long_description=README,
-    url='https://www.devopsz.com/',
+    url='https://github.com/devopszcom/django-scrapyd',
     author='Cuong Nguyen',
     author_email='cuongnb14@gmail.com',
     classifiers=[
