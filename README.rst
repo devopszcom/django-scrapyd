@@ -8,7 +8,7 @@ Quick start
 -----------
 1. Install
 
-`pip install django-scrapyd==0.2`
+    ```pip install django-scrapyd==0.2```
 
 2. Add "django-scrapyd" to your INSTALLED_APPS setting like this::
 
