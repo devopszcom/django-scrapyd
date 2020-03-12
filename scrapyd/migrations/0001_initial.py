@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=255)),
-                ('host', models.CharField(default='crawler', max_length=255)),
+                ('host', models.CharField(default='127.0.0.1', max_length=255)),
                 ('port', models.CharField(default=6800, max_length=255)),
             ],
         ),

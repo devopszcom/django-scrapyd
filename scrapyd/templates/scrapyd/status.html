@@ -5,6 +5,10 @@
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <style>
     span.label {
+        font-size: 1em;
+    }
+
+    span.label-status {
         font-size: 1.3em;
     }
 
@@ -35,10 +39,10 @@
                 <tbody>
                     <tr style="font-size: 1.5em">
                         <td>{{ status.node_name }}</td>
-                        <td class="text-center"><span class="label label-success">{{ status.status }}</span></td>
-                        <td class="text-center"><span class="label label-success">{{ status.pending }}</span></td>
-                        <td class="text-center"><span class="label label-success">{{ status.running }}</span></td>
-                        <td class="text-center"><span class="label label-success">{{ status.finished }}</span></td>
+                        <td class="text-center"><span class="label label-success label-status">{{ status.status }}</span></td>
+                        <td class="text-center"><span class="label label-success label-status">{{ status.pending }}</span></td>
+                        <td class="text-center"><span class="label label-success label-status">{{ status.running }}</span></td>
+                        <td class="text-center"><span class="label label-success label-status">{{ status.finished }}</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -63,7 +67,7 @@
                 <tbody>
                     {% for spider in spiders %}
                     <tr>
-                        <td><b>{{ spider }}</b></td>
+                        <td><span class="label label-info">{{ spider }}</span></td>
                         <td>
                             <form class="form-inline" action="{% url 'admin:run_spider' cid spider %}">
                                 <input name="params" style="width: 275px" type="text"
@@ -105,13 +109,13 @@
                     {% for job in jobs.running %}
                     <tr>
                         <td>{{ job.id }}</td>
-                        <td>{{ job.spider }}</td>
+                        <td><span class="label label-info">{{ job.spider }}</span></td>
                         <td>{{ job.pid }}</td>
                         <td class="mm-time" data-utc="{{ job.start_time }}">{{ job.start_time }}</td>
                         <td><a target="_blank"
                                 href="/admin/scrapyd/crawlernode/logs/detail/{{ cid }}/{{ job.spider }}/{{ job.id }}">Logs</a>
                         </td>
-                        <td><a class="btn btn-warning" href="{% url 'admin:stop_job' cid job.id %}"><span
+                        <td><a class="btn btn-warning btn-xs" href="{% url 'admin:stop_job' cid job.id %}"><span
                                     class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span></a></td>
                     </tr>
                     {% endfor %}
@@ -140,7 +144,7 @@
                     {% for job in jobs.pending %}
                     <tr>
                         <td>{{ job.id }}</td>
-                        <td>{{ job.spider }}</td>
+                        <td><span class="label label-info">{{ job.spider }}</span></td>
                         <td><a target="_blank"
                                 href="/admin/scrapyd/crawlernode/logs/detail/{{ cid }}/{{ job.spider }}/{{ job.id }}">Logs</a>
                         </td>
@@ -175,7 +179,7 @@
                     {% for job in jobs.finished %}
                     <tr>
                         <td>{{ job.id }}</td>
-                        <td>{{ job.spider }}</td>
+                        <td><span class="label label-info">{{ job.spider }}</span></td>
                         <td class="mm-time" data-utc="{{ job.start_time }}">{{ job.start_time }}</td>
                         <td class="mm-time" data-utc="{{ job.end_time }}">{{ job.end_time }}</td>
                         <td class="mm-time" data-utc="{{ job.end_time }}">{{ job.during|floatformat:-2 }}</td>

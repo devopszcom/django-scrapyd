@@ -13,6 +13,8 @@ import re
 import json
 import logging
 
+from requests.exceptions import ConnectionError
+
 from .scrapyd import ScraydAPI
 
 logger = logging.getLogger("django")
@@ -42,28 +44,33 @@ class CrawlerNodeAdmin(admin.ModelAdmin):
         return my_urls + urls
 
     def status_view(self, request, cid):
-        crawler = models.CrawlerNode.objects.get(pk=cid)
-        scrapy_client = ScraydAPI(host=crawler.host, port=crawler.port)
+        context = dict()
+        try:
+            crawler = models.CrawlerNode.objects.get(pk=cid)
+            scrapy_client = ScraydAPI(host=crawler.host, port=crawler.port)
 
-        jobs = scrapy_client.listjobs()
-        jobs['finished'] = list(reversed(jobs['finished']))[:15]
-        for job in jobs['finished']:
-            during = datetime.strptime(job["end_time"], "%Y-%m-%d %H:%M:%S.%f") - datetime.strptime(
-                job["start_time"], "%Y-%m-%d %H:%M:%S.%f")
-            job["during"] = during.total_seconds() / 60
+            jobs = scrapy_client.listjobs()
+            jobs['finished'] = list(reversed(jobs['finished']))[:15]
+            for job in jobs['finished']:
+                during = datetime.strptime(job["end_time"], "%Y-%m-%d %H:%M:%S.%f") - datetime.strptime(
+                    job["start_time"], "%Y-%m-%d %H:%M:%S.%f")
+                job["during"] = during.total_seconds() / 60
 
-        spiders = scrapy_client.listspiders()["spiders"]
+            spiders = scrapy_client.listspiders()["spiders"]
 
-        context = dict(
-            # Include common variables for rendering the admin template.
-            self.admin_site.each_context(request),
-            # Anything else you want in the context...
-            cid=cid,
-            status=scrapy_client.daemonstatus(),
-            jobs=jobs,
-            spiders=spiders,
-            log_url="http://{}:{}/logs/default".format(crawler.host, crawler.port),
-        )
+            context = dict(
+                # Include common variables for rendering the admin template.
+                self.admin_site.each_context(request),
+                # Anything else you want in the context...
+                cid=cid,
+                status=scrapy_client.daemonstatus(),
+                jobs=jobs,
+                spiders=spiders,
+                log_url="http://{}:{}/logs/default".format(crawler.host, crawler.port),
+            )
+        except ConnectionError as e:
+            messages.add_message(request, messages.ERROR, "Error: Can't connect to scrapyd")
+
         return TemplateResponse(request, "scrapyd/status.html", context)
 
     def run_spider(self, request, cid, spider):
