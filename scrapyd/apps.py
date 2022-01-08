@@ -2,7 +2,7 @@ from django.apps import AppConfig
 
 
 class ScrapydConfig(AppConfig):
-    name = 'azura_backend.scrapyd'
+    name = 'scrapyd'
     verbose_name = "Scrapyd"
 
     def ready(self):

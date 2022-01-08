@@ -54,7 +54,17 @@ class CrawlerNodeAdmin(admin.ModelAdmin):
             for job in jobs['finished']:
                 during = datetime.strptime(job["end_time"], "%Y-%m-%d %H:%M:%S.%f") - datetime.strptime(
                     job["start_time"], "%Y-%m-%d %H:%M:%S.%f")
-                job["during"] = during.total_seconds() / 60
+                during = int(during.total_seconds())
+                if during < 60:
+                    during = f'{during} seconds'
+                elif during < 3600:
+                    during = f'{int(during/60)} minutes'
+                else:
+                    hours = int(during / 3600)
+                    minutes = int((during - hours * 3600) / 60)
+                    during = f'{hours} hours {minutes} minutes'
+
+                job["during"] = during
 
             spiders = scrapy_client.listspiders()["spiders"]
 

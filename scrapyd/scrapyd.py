@@ -1,7 +1,7 @@
 import requests
 import logging
 
-logger = logging.getLogger('cms')
+logger = logging.getLogger('django')
 
 
 class ScraydAPI:
